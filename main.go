@@ -68,6 +68,11 @@ func main() {
 		return
 	}
 
+	// exit early if we're not running in iTerm.
+	if os.Getenv("TERM_PROGRAM") != "iTerm.app" {
+		return
+	}
+
 	var pidFlag int
 	flag.IntVar(&pidFlag, "pid", 0, "pid of the parent OpenSSH process")
 	flag.Parse()
