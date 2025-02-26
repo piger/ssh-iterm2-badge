@@ -27,6 +27,14 @@ func clearItermBadge() {
 	fmt.Printf("\033]1337;SetBadgeFormat=\a")
 }
 
+func truncateHostname(s string) string {
+	before, _, found := strings.Cut(s, ".")
+	if found {
+		return before
+	}
+	return s
+}
+
 func run(text string, ppid uint64) error {
 	setItermBadge(text)
 
@@ -84,6 +92,7 @@ func main() {
 	}
 
 	badgeText := strings.Join(args, " ")
+	badgeText = truncateHostname(badgeText)
 
 	// If pidFlag is 0 it means we are in the primary process; the primary process gets the
 	// pid of its parent process (ssh) and call itself passing the "-pid" flag.
