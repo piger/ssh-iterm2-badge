@@ -44,6 +44,9 @@ func run(text string, ppid uint64) error {
 		return fmt.Errorf("failed kqueue(): %w", err)
 	}
 
+	// should check the error, but where would we log it?
+	defer syscall.Close(kq)
+
 	// Define a kevent: wait for a pid to terminate and send an event.
 	event := syscall.Kevent_t{
 		Ident:  uint64(ppid),
